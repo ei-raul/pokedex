@@ -66,17 +66,7 @@ function App() {
 						{
 							pokemons.map((p) => {
 								return (
-									<div
-										style={{ 
-											width: 100, 
-											height: 100,
-											borderRadius: 10,
-											backgroundColor: "white",
-											justifyContent: "center",
-											alignItems: "center",
-											display: "flex"
-										}}
-									>
+									<div className='pokemon-card'>
 										<img
 											draggable={false}
 											src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${p.id}.png`}
