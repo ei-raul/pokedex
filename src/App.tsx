@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import type { Pokemon } from './models/Pokemon';
 import PokemonCard from './components/PokemonCard/PokemonCard';
+import PokemonCardList from './components/PokemonCardList/PokemonCardList';
 
 function App() {
 	const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
@@ -51,18 +52,7 @@ function App() {
 						overflow: "auto"
 					}}
 				>
-					<Flex 
-						style={{
-							justifyContent: "center",
-							alignItems: "center",
-							flexWrap: "wrap"
-						}}
-						gap={10}
-					>
-						{
-							pokemons.map((p) => <PokemonCard pokemon={p} />)
-						}
-					</Flex>
+					<PokemonCardList pokemons={pokemons} />
 				</div>
 			</Content>
 			<Footer style={{ textAlign: 'center' }}>
