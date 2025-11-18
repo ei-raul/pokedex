@@ -2,12 +2,8 @@ import { Flex, Layout, Typography } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import { useEffect, useState } from 'react';
 import './App.css';
-
-type Pokemon = {
-	id: number;
-	name: string;
-	url: string;
-};
+import type { Pokemon } from './models/Pokemon';
+import PokemonCard from './components/PokemonCard/PokemonCard';
 
 function App() {
 	const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
@@ -64,16 +60,7 @@ function App() {
 						gap={10}
 					>
 						{
-							pokemons.map((p) => {
-								return (
-									<div className='pokemon-card'>
-										<img
-											draggable={false}
-											src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${p.id}.png`}
-										/>
-									</div>
-								);
-							})
+							pokemons.map((p) => <PokemonCard pokemon={p} />)
 						}
 					</Flex>
 				</div>
