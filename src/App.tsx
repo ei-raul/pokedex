@@ -1,7 +1,6 @@
 import { Flex, Layout, Pagination, Typography } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import { useEffect, useMemo, useState } from 'react';
-import './App.css';
 import PokemonCardList from './components/PokemonCardList/PokemonCardList';
 import PokemonCardNew from './components/PokemonCardNew/PokemonCardNew';
 import type { Pokemon } from './models/Pokemon';
