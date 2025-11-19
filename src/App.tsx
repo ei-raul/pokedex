@@ -1,35 +1,45 @@
 import { Flex, Layout, Pagination, Typography } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import './App.css';
 import PokemonCardList from './components/PokemonCardList/PokemonCardList';
 import PokemonCardNew from './components/PokemonCardNew/PokemonCardNew';
 import type { Pokemon } from './models/Pokemon';
 import usePokemon from './stores/pokemonStore';
 import PokemonDetails from './components/PokemonDetails/PokemonDetails';
+import { useQuery } from '@tanstack/react-query';
 
 function App() {
+	const { hoveredPokemon } = usePokemon();
 	const pokemonsPerPage = 60;
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [totalPokemons, setTotalPokemons] = useState<number>(0);
 	const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
-	const [isLoading, setIsLoading] = useState<boolean>(true);
 
-	const { hoveredPokemon } = usePokemon();
+	const offset = useMemo(() => {
+		return (currentPage - 1) * pokemonsPerPage;
+	}, [currentPage, pokemonsPerPage]);
 
-	async function loadPokemons() {
-		setIsLoading(true);
-		const offset = (currentPage - 1) * pokemonsPerPage;
-		const resp = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${pokemonsPerPage}`);
-		const pokemonsData = await resp.json();
-		setTotalPokemons(pokemonsData.count);
-		setPokemons(pokemonsData.results.map((p: Pokemon, idx: number) => ({ ...p, id: idx + offset + 1 })));
-		setIsLoading(false);
-	}
+
+	const { data, isLoading, refetch,  } = useQuery({
+		queryKey: [(currentPage - 1) * pokemonsPerPage],
+		queryFn: async () => {
+			const resp = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${pokemonsPerPage}`);
+			const pokemonsData = await resp.json();
+			return pokemonsData;
+		}
+	});
 
 	useEffect(() => {
-		loadPokemons();
+		refetch();
 	}, [currentPage]);
+
+	useEffect(() => {
+		if(data) {
+			setTotalPokemons(data.count);
+			setPokemons(data.results.map((p: Pokemon, idx: number) => ({ ...p, id: idx + offset + 1 })));
+		}
+	}, [data]);
 
 	return (
 		<Layout
