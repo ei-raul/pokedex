@@ -1,12 +1,13 @@
 import { Flex } from "antd";
+import type { FC } from "react";
 import type { Pokemon } from "../../models/Pokemon";
-import PokemonCard from "../PokemonCard/PokemonCard";
 
 type PokemonCardListProps = {
-    pokemons: Array<Pokemon>
-}
+    pokemons: Array<Pokemon>,
+    pokemonViewer: FC<{ pokemon: Pokemon; }>;
+};
 
-export default function PokemonCardList({ pokemons }: PokemonCardListProps) {
+export default function PokemonCardList({ pokemons, pokemonViewer: PokemonViewer }: PokemonCardListProps) {
     return (
         <Flex
             style={{
@@ -17,7 +18,7 @@ export default function PokemonCardList({ pokemons }: PokemonCardListProps) {
             gap={10}
         >
             {
-                pokemons.map((p) => <PokemonCard pokemon={p} />)
+                pokemons.map((p) => <PokemonViewer pokemon={p} />)
             }
         </Flex>
     );

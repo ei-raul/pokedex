@@ -5,6 +5,7 @@ import './App.css';
 import type { Pokemon } from './models/Pokemon';
 import PokemonCard from './components/PokemonCard/PokemonCard';
 import PokemonCardList from './components/PokemonCardList/PokemonCardList';
+import PokemonCardNew from './components/PokemonCardNew/PokemonCardNew';
 
 function App() {
 	const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
@@ -52,7 +53,7 @@ function App() {
 						overflow: "auto"
 					}}
 				>
-					<PokemonCardList pokemons={pokemons} />
+					<PokemonCardList pokemons={pokemons} pokemonViewer={PokemonCardNew} />
 				</div>
 			</Content>
 			<Footer style={{ textAlign: 'center' }}>
