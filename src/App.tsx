@@ -6,6 +6,7 @@ import PokemonCardList from './components/PokemonCardList/PokemonCardList';
 import PokemonCardNew from './components/PokemonCardNew/PokemonCardNew';
 import type { Pokemon } from './models/Pokemon';
 import usePokemon from './stores/pokemonStore';
+import PokemonDetails from './components/PokemonDetails/PokemonDetails';
 
 function App() {
 	const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
@@ -74,18 +75,7 @@ function App() {
 							overflow: "auto"
 						}}
 					>
-						{
-							hoveredPokemon &&
-							<div>
-								<Flex vertical style={{justifyContent: "center", alignItems: "center"}}>
-									<img
-										draggable={false}
-										src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${hoveredPokemon.id}.png`}
-									/>
-									<Typography.Title>{hoveredPokemon.name}</Typography.Title>
-								</Flex>
-							</div>
-						}
+						<PokemonDetails pokemon={hoveredPokemon} />
 					</div>
 				</Flex>
 			</Content>
