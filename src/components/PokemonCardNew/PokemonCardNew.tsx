@@ -7,16 +7,13 @@ type PokemonCardProps = {
 };
 
 export default function PokemonCardNew({ pokemon }: PokemonCardProps) {
-    const { setHoveredPokemon } = usePokemon();
+    const { setSelectedPokemon: setHoveredPokemon } = usePokemon();
 
     return (
         <div
             className='PokemonCard'
-            onMouseEnter={
+            onClick={
                 () => setHoveredPokemon(pokemon)
-            }
-            onMouseLeave={
-                () => setHoveredPokemon(null)
             }
         >
             <img

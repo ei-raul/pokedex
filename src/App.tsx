@@ -9,7 +9,7 @@ import PokemonDetails from './components/PokemonDetails/PokemonDetails';
 import { useQuery } from '@tanstack/react-query';
 
 function App() {
-	const { hoveredPokemon } = usePokemon();
+	const { selectedPokemon: hoveredPokemon } = usePokemon();
 	const pokemonsPerPage = 60;
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [totalPokemons, setTotalPokemons] = useState<number>(0);
@@ -60,7 +60,7 @@ function App() {
 					alignItems: 'center',
 				}}
 			>
-				<Typography.Title style={{ color: 'white' }}>Pokémons</Typography.Title>
+				<Typography.Title level={3} style={{ color: 'white' }}>Pokémons</Typography.Title>
 			</Header>
 			<Content style={{ padding: '48px' }}>
 				<Flex gap={20} style={{ height: "100%" }}>
