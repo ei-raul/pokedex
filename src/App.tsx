@@ -1,4 +1,4 @@
-import { Flex, Layout, Typography } from 'antd';
+import { Flex, Layout, Pagination, Typography } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import { useEffect, useState } from 'react';
 import './App.css';
@@ -9,6 +9,9 @@ import usePokemon from './stores/pokemonStore';
 import PokemonDetails from './components/PokemonDetails/PokemonDetails';
 
 function App() {
+	const pokemonsPerPage = 60;
+	const [currentPage, setCurrentPage] = useState<number>(1);
+	const [totalPokemons, setTotalPokemons] = useState<number>(0);
 	const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -16,15 +19,17 @@ function App() {
 
 	async function loadPokemons() {
 		setIsLoading(true);
-		const resp = await fetch("https://pokeapi.co/api/v2/pokemon?limit=60");
-		const pokemonsList = await resp.json();
-		setPokemons(pokemonsList.results.map((p: Pokemon, idx: number) => ({ ...p, id: idx + 1 })));
+		const offset = (currentPage - 1) * pokemonsPerPage;
+		const resp = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${pokemonsPerPage}`);
+		const pokemonsData = await resp.json();
+		setTotalPokemons(pokemonsData.count);
+		setPokemons(pokemonsData.results.map((p: Pokemon, idx: number) => ({ ...p, id: idx + offset + 1 })));
 		setIsLoading(false);
 	}
 
 	useEffect(() => {
 		loadPokemons();
-	}, []);
+	}, [currentPage]);
 
 	return (
 		<Layout
@@ -54,6 +59,7 @@ function App() {
 						style={{
 							padding: 24,
 							height: '100%',
+							width: "100%",
 							backgroundColor: "#dcdcdc",
 							borderRadius: '25px',
 							overflow: "auto"
@@ -62,7 +68,26 @@ function App() {
 						{
 							isLoading ?
 								<Typography.Paragraph>Carregando Pokémons...</Typography.Paragraph> :
-								<PokemonCardList pokemons={pokemons} pokemonViewer={PokemonCardNew} />
+								<Flex
+									vertical
+									gap={10}
+									style={{
+										justifyContent: "space-between",
+										alignItems: "center",
+										height: "100%"
+									}}
+								>
+									<PokemonCardList pokemons={pokemons} pokemonViewer={PokemonCardNew} />
+									<Pagination
+										align="center"
+										defaultCurrent={1}
+										total={totalPokemons}
+										pageSize={pokemonsPerPage}
+										showSizeChanger={false}
+										current={currentPage}
+										onChange={(page) => setCurrentPage(page)}
+									/>
+								</Flex>
 						}
 					</div>
 					<div
