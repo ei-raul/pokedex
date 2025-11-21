@@ -71,3 +71,8 @@ export default defineConfig([
   },
 ])
 ```
+
+# Deploy no GitHub Pages
+
+Utilizar os comandos `npm run build` e `npm run deploy`.
+Ele vai chamar o `gh-pages`, que deve ser instalado como dependência do projeto.
