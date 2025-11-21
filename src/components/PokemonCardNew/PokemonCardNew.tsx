@@ -7,14 +7,18 @@ type PokemonCardProps = {
 };
 
 export default function PokemonCardNew({ pokemon }: PokemonCardProps) {
-    const { setSelectedPokemon: setHoveredPokemon } = usePokemon();
+    const { selectedPokemon, setSelectedPokemon } = usePokemon();
 
     return (
         <div
-            className='PokemonCard'
             onClick={
-                () => setHoveredPokemon(pokemon)
+                () => setSelectedPokemon(pokemon)
             }
+            style={{
+                backgroundColor: selectedPokemon?.name === pokemon.name ? 'beige' : 'white',
+                outline: selectedPokemon?.name === pokemon.name ? '2px solid black' : 'none'
+            }}
+            className='PokemonCard'
         >
             <img
                 draggable={false}

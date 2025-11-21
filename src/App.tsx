@@ -9,7 +9,7 @@ import PokemonDetails from './components/PokemonDetails/PokemonDetails';
 import { useQuery } from '@tanstack/react-query';
 
 function App() {
-	const { selectedPokemon: hoveredPokemon } = usePokemon();
+	const { selectedPokemon } = usePokemon();
 	const pokemonsPerPage = 60;
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [totalPokemons, setTotalPokemons] = useState<number>(0);
@@ -20,13 +20,13 @@ function App() {
 	}, [currentPage, pokemonsPerPage]);
 
 
-	const { data, isLoading, refetch,  } = useQuery({
-		queryKey: [(currentPage - 1) * pokemonsPerPage],
+	const { data, isLoading, refetch  } = useQuery({
+		queryKey: [offset],
 		queryFn: async () => {
 			const resp = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${pokemonsPerPage}`);
 			const pokemonsData = await resp.json();
 			return pokemonsData;
-		}
+		},
 	});
 
 	useEffect(() => {
@@ -109,7 +109,7 @@ function App() {
 							overflow: "auto"
 						}}
 					>
-						<PokemonDetails pokemon={hoveredPokemon} />
+						<PokemonDetails pokemon={selectedPokemon} />
 					</div>
 				</Flex>
 			</Content>
