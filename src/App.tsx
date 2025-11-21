@@ -7,6 +7,7 @@ import type { Pokemon } from './models/Pokemon';
 import usePokemon from './stores/pokemonStore';
 import PokemonDetails from './components/PokemonDetails/PokemonDetails';
 import { useQuery } from '@tanstack/react-query';
+import Link from 'antd/es/typography/Link';
 
 function App() {
 	const { selectedPokemon } = usePokemon();
@@ -60,7 +61,7 @@ function App() {
 					alignItems: 'center',
 				}}
 			>
-				<Typography.Title level={3} style={{ color: 'white' }}>Pokémons</Typography.Title>
+				<Typography.Title level={3} style={{ color: 'white' }}>Pokédex</Typography.Title>
 			</Header>
 			<Content style={{ padding: '48px' }}>
 				<Flex gap={20} style={{ height: "100%" }}>
@@ -114,7 +115,7 @@ function App() {
 				</Flex>
 			</Content>
 			<Footer style={{ textAlign: 'center' }}>
-				Ant Design ©{new Date().getFullYear()} Created by Ant UED
+				2025 - Criado por <Link href='https://ei-raul.github.io/'>Raul de Araújo Lima</Link>
 			</Footer>
 		</Layout>
 	);
