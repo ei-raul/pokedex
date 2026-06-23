@@ -1,4 +1,4 @@
-import { Flex, Layout, Pagination, Typography } from 'antd';
+import { ConfigProvider, Flex, Layout, Pagination, Typography } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import { useEffect, useMemo, useState } from 'react';
 import PokemonCardList from './components/PokemonCardList/PokemonCardList';
@@ -42,82 +42,121 @@ function App() {
 	}, [data]);
 
 	return (
-		<Layout
-			style={{
-				position: 'fixed',
-				top: 0,
-				bottom: 0,
-				left: 0,
-				right: 0
+		<ConfigProvider
+			theme={{
+				token: {
+					colorPrimary: '#cc0000',
+					borderRadius: 8,
+					borderRadiusLG: 12,
+				},
 			}}
 		>
-			<Header
+			<Layout
 				style={{
-					position: 'sticky',
+					position: 'fixed',
 					top: 0,
-					zIndex: 1,
-					width: '100%',
-					display: 'flex',
-					alignItems: 'center',
+					bottom: 0,
+					left: 0,
+					right: 0,
+					background: '#f0f2f5',
 				}}
 			>
-				<Typography.Title level={3} style={{ color: 'white' }}>Pokédex</Typography.Title>
-			</Header>
-			<Content style={{ padding: '48px' }}>
-				<Flex gap={20} style={{ height: "100%" }}>
-					<div
+				<Header
+					style={{
+						position: 'sticky',
+						top: 0,
+						zIndex: 1,
+						width: '100%',
+						display: 'flex',
+						alignItems: 'center',
+						background: 'linear-gradient(135deg, #cc0000 0%, #8b0000 100%)',
+						boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
+					}}
+				>
+					<Typography.Title
+						level={3}
 						style={{
-							padding: 24,
-							height: '100%',
-							width: "100%",
-							backgroundColor: "#dcdcdc",
-							borderRadius: '25px',
-							overflow: "auto"
+							color: 'white',
+							margin: 0,
+							fontWeight: 700,
+							letterSpacing: '-0.3px',
+							textShadow: '0 1px 3px rgba(0,0,0,0.25)',
 						}}
 					>
-						{
-							isLoading ?
-								<Typography.Paragraph>Carregando Pokémons...</Typography.Paragraph> :
-								<Flex
-									vertical
-									gap={10}
-									style={{
-										justifyContent: "space-between",
-										alignItems: "center",
-										height: "100%"
-									}}
-								>
-									<PokemonCardList pokemons={pokemons} pokemonViewer={PokemonCardNew} />
-									<Pagination
-										align="center"
-										defaultCurrent={1}
-										total={totalPokemons}
-										pageSize={pokemonsPerPage}
-										showSizeChanger={false}
-										current={currentPage}
-										onChange={(page) => setCurrentPage(page)}
-									/>
-								</Flex>
-						}
-					</div>
-					<div
-						style={{
-							padding: 24,
-							height: '100%',
-							minWidth: "400px",
-							backgroundColor: "#dcdcdc",
-							borderRadius: '25px',
-							overflow: "auto"
-						}}
-					>
-						<PokemonDetails pokemon={selectedPokemon} />
-					</div>
-				</Flex>
-			</Content>
-			<Footer style={{ textAlign: 'center' }}>
-				2025 - Criado por <Link href='https://ei-raul.github.io/'>Raul de Araújo Lima</Link>
-			</Footer>
-		</Layout>
+						Pokédex
+					</Typography.Title>
+				</Header>
+				<Content style={{ padding: '32px 48px' }}>
+					<Flex gap={20} style={{ height: "100%" }}>
+						<div
+							style={{
+								padding: 24,
+								height: '100%',
+								width: "100%",
+								background: 'white',
+								borderRadius: '16px',
+								overflow: "auto",
+								boxShadow: '0 2px 8px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04)',
+								border: '1px solid rgba(0,0,0,0.05)',
+							}}
+						>
+							{
+								isLoading ?
+									<Typography.Paragraph style={{ color: '#6b7280', textAlign: 'center', marginTop: 40 }}>
+										Carregando Pokémons...
+									</Typography.Paragraph> :
+									<Flex
+										vertical
+										gap={10}
+										style={{
+											justifyContent: "space-between",
+											alignItems: "center",
+											height: "100%"
+										}}
+									>
+										<PokemonCardList pokemons={pokemons} pokemonViewer={PokemonCardNew} />
+										<Pagination
+											align="center"
+											defaultCurrent={1}
+											total={totalPokemons}
+											pageSize={pokemonsPerPage}
+											showSizeChanger={false}
+											current={currentPage}
+											onChange={(page) => setCurrentPage(page)}
+										/>
+									</Flex>
+							}
+						</div>
+						<div
+							style={{
+								padding: 24,
+								height: '100%',
+								minWidth: "400px",
+								background: 'white',
+								borderRadius: '16px',
+								overflow: "auto",
+								boxShadow: '0 2px 8px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04)',
+								border: '1px solid rgba(0,0,0,0.05)',
+							}}
+						>
+							<PokemonDetails pokemon={selectedPokemon} />
+						</div>
+					</Flex>
+				</Content>
+				<Footer
+					style={{
+						textAlign: 'center',
+						background: '#f9fafb',
+						borderTop: '1px solid #e5e7eb',
+						padding: '12px 48px',
+						color: '#6b7280',
+						fontSize: '13px',
+					}}
+				>
+					2025 - Criado por <Link href='https://ei-raul.github.io/'>Raul de Araújo Lima</Link>
+				</Footer>
+			</Layout>
+		</ConfigProvider>
 	);
 }
 
